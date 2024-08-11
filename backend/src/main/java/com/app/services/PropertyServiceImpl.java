@@ -1,6 +1,5 @@
 package com.app.services;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
 
@@ -38,8 +37,6 @@ public class PropertyServiceImpl implements PropertyService {
 		Address newAddress = new Address();
 
 		Optional<User> user = userDao.findById(userId);
-
-		List<Tag> tags = new ArrayList<Tag>();
 
 		newAddress.setAddressLine1(property.getAddress().getAddressLine1());
 		newAddress.setAddressLine2(property.getAddress().getAddressLine2());

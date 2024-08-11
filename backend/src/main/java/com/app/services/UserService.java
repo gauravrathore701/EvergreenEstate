@@ -2,7 +2,6 @@ package com.app.services;
 
 import com.app.dto.SaveUserDto;
 import com.app.dto.UpdateUserDto;
-import com.app.entities.User;
 
 public interface UserService {
 

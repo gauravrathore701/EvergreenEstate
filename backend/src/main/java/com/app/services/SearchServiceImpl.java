@@ -39,7 +39,7 @@ public class SearchServiceImpl implements SearchService{
 		
 		List<Address> addressList = addressDao.findByCity(cityName);
 		
-		List<Property> propertyList = new ArrayList();
+		List<Property> propertyList = new ArrayList<>();
 		
 		for(Address address : addressList) {
 			propertyList.add(address.getProperty());
