@@ -1,13 +1,14 @@
 import React, { useState } from "react";
 import { TbEye } from "react-icons/tb";
 import { GoEyeClosed } from "react-icons/go";
-import { Link, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
+import { changePassword } from "../services/methods";
+import { useCookies } from "react-cookie";
 
 function ResetPasswordPage() {
+  const [cookie] = useCookies();
   const [showOldPassword, setShowOldPassword] = useState(false);
   const [showNewPassword, setShowNewPassword] = useState(false);
   const [showConfirmPassword, setShowConfirmPassword] = useState(false);
@@ -28,7 +29,7 @@ function ResetPasswordPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate passwords
@@ -37,21 +38,15 @@ function ResetPasswordPage() {
     const doPasswordsMatch = data.newPassword === data.confirmPassword;
 
     if (isValidOldPassword && isValidNewPassword && doPasswordsMatch) {
-      // Proceed with reset password logic
-      console.log("Form is valid, perform password reset");
-
       // Example: Call your reset password function here
-
-      // Clear form or perform other actions after successful password reset
-      setData({
-        oldPassword: "",
-        newPassword: "",
-        confirmPassword: "",
-      });
-
+      const response = await changePassword(data.oldPassword, data.newPassword);
       // Show success toast
-      toast.success("Password reset successful!");
-      navigate("/");
+      if (response.data.status === "Success") {
+        toast.success("Password reset successful!");
+        navigate("/dashboard");
+      } else {
+        toast.warning(response.data.status);
+      }
     } else if (!doPasswordsMatch) {
       toast.error("New passwords do not match");
     }
@@ -67,7 +62,6 @@ function ResetPasswordPage() {
 
   return (
     <div>
-      <Header />
       <div className="container resetPasswordFormContainer col-lg-6 mb-1 px-7 py-4">
         <h2 className="centered mb-4 mt-6">Reset Password</h2>
         <form onSubmit={handleSubmit}>
@@ -138,9 +132,6 @@ function ResetPasswordPage() {
             Reset Password
           </button>
         </form>
-      </div>
-      <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
-        <Footer />
       </div>
     </div>
   );

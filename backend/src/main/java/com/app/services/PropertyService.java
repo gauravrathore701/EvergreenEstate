@@ -2,13 +2,22 @@ package com.app.services;
 
 import java.util.List;
 
-import com.app.dto.SavePropertyDto;
-import com.app.entities.Property;
+import com.app.dto.PropertyRequest;
+import com.app.dto.PropertyResponse;
+import com.app.dto.PropertyResponsePaginated;
+
 
 public interface PropertyService {
 
-	String addNewProperty(SavePropertyDto property, Long userId);
+	PropertyResponse addNewProperty(PropertyRequest request, Long Userid);
 	
-	List<Property> getAllProperties();
+	PropertyResponsePaginated getAll(int page,int size);
 	
+	List<PropertyResponse> seachProductByUser(Long Userid);
+	
+	PropertyResponse getById(Long id);
+	
+	String deleteProperty(Long id);
+	
+	String updatePropertyDetails(PropertyRequest request, Long Propertyid);
 }

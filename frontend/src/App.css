@@ -3,6 +3,14 @@
   text-align: center;
 }
 
+/* The main content wrapper */
+.content-wrapper {
+  min-height: 100%; /* Ensure the content takes at least the full page height */
+  margin-bottom: -10rem; /* Adjust this value to be the same as the footer height */
+  padding-bottom: 10rem; /* Again, adjust to be the same as footer height */
+  box-sizing: border-box;
+}
+
 /* Homepage designs */
 @media (min-width: 800px) {
   /* src/Homepage.css */
@@ -14,8 +22,17 @@
     font-family: Arial, sans-serif;
   }
 
+  /* The main content wrapper */
+  .content-wrapper {
+    min-height: 100%; /* Ensure the content takes at least the full page height */
+    margin-bottom: -10rem; /* Adjust this value to be the same as the footer height */
+    padding-bottom: 10rem; /* Again, adjust to be the same as footer height */
+    box-sizing: border-box;
+  }
+
   .homepage {
-    background-image: url("https://free4kwallpapers.com/uploads/originals/2020/10/13/digital-landscape-wallpaper.jpg");
+    /* background-image: url("https://free4kwallpapers.com/uploads/originals/2020/10/13/digital-landscape-wallpaper.jpg"); */
+    background-image: url("../public/image2.jpg");
     background-size: cover;
     background-position: center;
     height: 100vh;
@@ -148,11 +165,11 @@
 }
 
 /* Header Designs */
-@media (min-width: 800px) {
+@media (min-width: 20px) {
   .header {
     padding-top: 10px;
     padding-bottom: 10px;
-    background-color: black;
+    background-color: #003049;
     color: white;
   }
   .site-title {
@@ -169,12 +186,14 @@
 /* Footer Designs */
 .footer {
   position: relative;
-  margin-top: 20px;
-  background-color: #1c1b1d;
+  padding: 0;
+  margin-bottom: 0;
+  width: 100%;
+  /* height: 10rem; Ensure this matches the negative margin and padding */
+  background-color: #003049;
   color: white;
   font-weight: 600;
   font-size: large;
-  width: 100%;
 }
 
 /* Removing Pre Styles */
@@ -198,7 +217,178 @@ body {
 */
 
 /* Carousels Images */
-.CarouselImage{
-  height:20%;
+.CarouselImage {
+  height: 20%;
   max-height: 500px;
+}
+
+/* Container holding the select and input */
+.search-container {
+  display: flex;
+  align-items: center;
+  max-width: 800px; /* Increased max-width to accommodate wider input */
+  margin: 0 auto; /* Center the search bar on the page */
+}
+
+/* Style for the select tag */
+.search-criteria {
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-radius: 25px 0 0 25px; /* Rounded corners on the left */
+  outline: none;
+  cursor: pointer;
+  background-color: #fff;
+  transition: border-color 0.3s ease-in-out;
+  -webkit-appearance: none; /* Remove default arrow in some browsers */
+  -moz-appearance: none; /* Remove default arrow in Firefox */
+  appearance: none; /* Modern browsers */
+  width: 150px; /* Adjust width as needed */
+}
+
+/* Style for the input tag */
+.search-input {
+  flex-grow: 2; /* Increased flex-grow to make the input wider */
+  padding: 10px 15px;
+  font-size: 16px;
+  border: 2px solid #ccc;
+  border-left: none; /* Remove left border to connect with select */
+  border-radius: 0 25px 25px 0; /* Rounded corners on the right */
+  outline: none;
+  transition: border-color 0.3s ease-in-out, box-shadow 0.3s ease-in-out;
+}
+
+/* Hover and focus effects */
+.search-criteria:focus,
+.search-input:focus {
+  border-color: #4caf50; /* Customize this color to match your theme */
+  box-shadow: 0 0 10px rgba(76, 175, 80, 0.5); /* Green shadow */
+}
+
+/* Placeholder styling for input */
+.search-input::placeholder {
+  color: #888;
+  font-style: italic;
+}
+
+/* Ensuring a consistent appearance for the dropdown arrow */
+.search-criteria::after {
+  content: "▼";
+  font-size: 12px;
+  color: #888;
+  position: absolute;
+  right: 15px;
+  pointer-events: none;
+}
+
+/* Responsive design for smaller screens */
+@media (max-width: 600px) {
+  .search-criteria {
+    width: 100px; /* Adjust for smaller screens */
+    font-size: 14px;
+    padding: 8px;
+  }
+
+  .search-input {
+    font-size: 14px;
+    padding: 8px 12px;
+  }
+}
+
+/* Style for the search button */
+.search-button {
+  padding: 10px 20px;
+  font-size: 16px;
+  border: 2px solid #4caf50; /* Match with the focus color */
+  border-radius: 25px;
+  background-color: #4caf50; /* Green background to match focus color */
+  color: #fff;
+  cursor: pointer;
+  outline: none;
+  transition: background-color 0.3s ease-in-out, border-color 0.3s ease-in-out;
+}
+
+/* Hover and focus effects for the button */
+.search-button:hover,
+.search-button:focus {
+  background-color: #45a049; /* Slightly darker green for hover/focus */
+  border-color: #45a049; /* Match border color with background on hover/focus */
+}
+
+/* Disabled button state */
+.search-button:disabled {
+  background-color: #ccc; /* Light gray for disabled state */
+  border-color: #bbb; /* Lighter border color */
+  color: #666; /* Darker text color */
+  cursor: not-allowed; /* Show not-allowed cursor */
+}
+
+.searchContainer {
+  padding-top: 100px;
+  margin-bottom: 153px;
+}
+
+/* Property Tag Adding */
+.suggestions {
+  list-style: none;
+  margin: 0;
+  padding: 0;
+  background-color: #fff;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  position: absolute;
+  z-index: 10;
+  width: 100%;
+  max-height: 150px;
+  overflow-y: auto;
+}
+
+.suggestion-item {
+  padding: 8px;
+  cursor: pointer;
+}
+
+.suggestion-item:hover {
+  background-color: #e0e0e0;
+}
+
+.tag-input-container {
+  position: relative;
+  border: 1px solid #ccc;
+  padding: 8px;
+  border-radius: 4px;
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+}
+
+.tags {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.tag {
+  background-color: #e0e0e0;
+  border-radius: 3px;
+  padding: 5px 8px;
+  margin: 4px;
+  display: flex;
+  align-items: center;
+}
+
+.tag-close-icon {
+  font-size: 16px;
+  margin-left: 8px;
+  cursor: pointer;
+}
+
+.tag-input {
+  border: none;
+  outline: none;
+  flex-grow: 1;
+  padding: 4px;
+  margin: 4px;
 }

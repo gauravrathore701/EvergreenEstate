@@ -1,17 +1,59 @@
-function ProductCard({ page = { name: "default" } }) {
+import { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
+import { getPropertyImages } from "../services/property";
+import { toast } from "react-toastify";
+
+function ProductCard({
+  page = { name: "default" },
+  id,
+  title,
+  description,
+  price,
+  owner,
+}) {
+  const [Img, SetImg] = useState("");
+  const fetchImage = async () => {
+    // const id = 9;
+    const result = await getPropertyImages(id); // Backend Integration
+    if (result.status === 200) {
+      const data = result.data;
+      return data;
+    } else {
+      toast.warning("No Such Property Images Found");
+      return null;
+    }
+  };
+  useEffect(() => {
+    fetchImage().then((res) => {
+      SetImg(res[0].imageData);
+    });
+  }, []);
+
+  // useEffect(() => {
+  //   (() => {
+  //     fetchImage().then((res) => {
+  //       // console.log(res[0].imageData);
+  //       SetImg(res[0]);
+  //     });
+  //     // console.log(Img);
+  //     // console.log(images[0]);
+  //     // var data = images[0].imageData;
+  //     // SetImg(data);
+  //     // console.log(data);
+  //   })();
+  // }, []);
   function addToCartBtn() {
-    if (page.name == "wishlist") {
+    if (page.name == "homepage") {
       return (
         <div>
-          <a
-            href="/individual-property"
-            class="btn btn-secondary card-link mb-2"
+          <Link
+            to={`/individual-property/${id}`}
+            class="btn btn-success card-link mb-2"
           >
             Show Property
-          </a>
-          <a href="/checkout" class="btn btn-success card-link mb-2">
-            Buy Property
-
+          </Link>
+          <a href={`/checkout/${id}`} class="btn btn-secondary card-link mb-2">
+            Contact Owner
           </a>
         </div>
       );
@@ -19,17 +61,35 @@ function ProductCard({ page = { name: "default" } }) {
     if (page.name == "Edit-Prop") {
       return (
         <div>
-          <a href="/individual-property" class="btn btn-success card-link mb-2">
+          <Link
+            to={`/individual-property/${id}`}
+            class="btn btn-success card-link mb-2"
+          >
             Show Property
-          </a>
-          <a href="/edit-property" class="btn btn-warning card-link mb-2">
+          </Link>
+          <Link
+            to={`/edit-property/${id}`}
+            class="btn btn-warning card-link mb-2"
+          >
             Edit Property
-          </a>
+          </Link>
         </div>
       );
     }
-    if (page.name == "Checkout-Prop") {
-      return <div></div>;
+    if (page.name == "wishlist") {
+      return (
+        <div>
+          <Link
+            to={`/individual-property/${id}`}
+            class="btn btn-success card-link mb-2"
+          >
+            Show Property
+          </Link>
+          <a href={`/checkout/${id}`} class="btn btn-secondary card-link mb-2">
+            Contact Owner
+          </a>
+        </div>
+      );
     }
   }
 
@@ -37,13 +97,14 @@ function ProductCard({ page = { name: "default" } }) {
     <div>
       <div class="card" style={{ width: "20rem", borderRadius: "20px" }}>
         <img
-          src="https://images.crowdspring.com/blog/wp-content/uploads/2017/08/23163415/pexels-binyamin-mellish-106399.jpg"
+          src={"data:image/png;base64," + `${Img}`}
+          // src={`${Img}`}
           class="card-img-top"
           alt="property image"
           style={{ borderRadius: "20px" }}
         />
         <div class="card-body">
-          <h5 class="card-title">Property title</h5>
+          <h5 class="card-title">{title}</h5>
           <p
             class="card-text"
             style={{
@@ -52,9 +113,7 @@ function ProductCard({ page = { name: "default" } }) {
               wordSpacing: "2px",
             }}
           >
-            Lorem ipsum dolor sit amet consectetur adipisicing elit. Temporibus
-            ab saepe facere, aut numquam maiores! Maxime nulla, sint in commodi
-            expedita totam voluptas, harum
+            {description}
           </p>
         </div>
         <ul class="list-group list-group-flush">
@@ -63,10 +122,10 @@ function ProductCard({ page = { name: "default" } }) {
             style={{ fontWeight: "bolder", fontSize: "20px" }}
           >
             {" "}
-            &#8377; 2,000,000
+            &#8377; {price}
           </li>
           <li class="list-group-item">
-            <b>Seller Name:</b> Someone
+            <b>Seller Name:</b> {owner}
           </li>
         </ul>
         <div class="card-body">{addToCartBtn()}</div>

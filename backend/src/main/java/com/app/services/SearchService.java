@@ -1,18 +1,22 @@
 package com.app.services;
 
 import java.util.List;
-import java.util.Set;
 
-import com.app.entities.Property;
+import com.app.dto.PropertyResponse;
+import com.app.utils.ApiResponse;
 
 public interface SearchService {
 
-	List<Property> searchByCityName(String cityName);
+	ApiResponse<List<PropertyResponse>> searchByCityName(String cityName);
 	
-	Set<Property> searchByTagName(String tagName);
+	ApiResponse<List<PropertyResponse>> searchByStateName(String stateName);
 	
-	List<Property> searchByPropertyName(String propertyName);
+	ApiResponse<List<PropertyResponse>> searchByTagName(String tagName);
 	
-	List<Property> searchByUsername(String userName);
+	ApiResponse<List<PropertyResponse>> searchByPropertyName(String propertyName);
+	
+	ApiResponse<List<PropertyResponse>> searchByUsername(String userName);
+	
+	
 	
 }

@@ -1,5 +1,5 @@
 package com.app.entities;
 
 public enum PropertyType {
-	APARTMENT, VILLA, MANSION, BUNGLOW
+	APARTMENT, VILLA, BUNGLOW, BHK_1, BHK_2, BHK_3
 }

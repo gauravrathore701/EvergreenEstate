@@ -3,17 +3,20 @@ package com.app.entities;
 import java.util.HashSet;
 import java.util.Set;
 
-import javax.persistence.CascadeType;
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.EnumType;
-import javax.persistence.Enumerated;
-import javax.persistence.FetchType;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToMany;
-import javax.persistence.ManyToOne;
-import javax.persistence.OneToOne;
-import javax.persistence.Table;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import jakarta.persistence.CascadeType;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.EnumType;
+import jakarta.persistence.Enumerated;
+import jakarta.persistence.FetchType;
+import jakarta.persistence.JoinColumn;
+import jakarta.persistence.Lob;
+import jakarta.persistence.ManyToMany;
+import jakarta.persistence.ManyToOne;
+import jakarta.persistence.OneToOne;
+import jakarta.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -28,6 +31,7 @@ public class Property extends BaseEntity {
 	private String title;
 	
 	@Column
+	@Lob
 	private String description;
 	
 	@Column
@@ -47,16 +51,19 @@ public class Property extends BaseEntity {
 	private int bathrooms;
 	
 	@Column
-	private int isSold = 0;
+	private boolean isSold = false;
+	
+	private boolean isDeleted;
 	
 	@ManyToOne(cascade = CascadeType.ALL)
 	@JoinColumn(name = "userId")
 	private User user;
 	
-	@OneToOne(cascade = CascadeType.ALL)
-	@JoinColumn(name = "addressId")
+	@OneToOne(cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+	@JoinColumn(name = "addressId", unique = true)
 	private Address address;
 	
-	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "properties", fetch = FetchType.EAGER)
+	@JsonIgnore
+	@ManyToMany(cascade = CascadeType.ALL,mappedBy = "properties", fetch = FetchType.LAZY)
 	private Set<Tag> tags = new HashSet<>();
 }

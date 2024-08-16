@@ -23,9 +23,14 @@ public class SearchController {
 		return ResponseEntity.ok(searchService.searchByCityName(cityName));
 	}
 	
+	@GetMapping("/state/{stateName}")
+	public ResponseEntity<?> findByStateName(@PathVariable String stateName){
+		return ResponseEntity.ok(searchService.searchByStateName(stateName));
+	}
+		
 	@GetMapping("/tag/{tagName}")
 	public ResponseEntity<?> findByTagName(@PathVariable String tagName){
-		return ResponseEntity.ok(searchService.searchByTagName(tagName));
+		return ResponseEntity.ok(searchService.searchByTagName(tagName.toUpperCase()));
 	}
 	
 	@GetMapping("/property/{propertyName}")

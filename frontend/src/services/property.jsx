@@ -41,9 +41,37 @@ export async function GetSpecficPropertyId(propertyID) {
   // read JSON data (response)
   return response.data;
 }
-export async function EditSpecficPropertyId(propertyID, title, address, city, state, district, pincode, propertyType, price, PropertyArea, bedrooms, bathrooms, description) {
+export async function EditSpecficPropertyId(
+  propertyID,
+  title,
+  address,
+  city,
+  state,
+  district,
+  pincode,
+  propertyType,
+  price,
+  PropertyArea,
+  bedrooms,
+  bathrooms,
+  description
+) {
   // body parameters
-  const body = { propertyID, title, address, city, state, district, pincode, propertyType, price, PropertyArea, bedrooms, bathrooms, description };
+  const body = {
+    propertyID,
+    title,
+    address,
+    city,
+    state,
+    district,
+    pincode,
+    propertyType,
+    price,
+    PropertyArea,
+    bedrooms,
+    bathrooms,
+    description,
+  };
 
   // make API call
   const response = await axios.put(`${config.url}/Property/edit`, body);
@@ -52,22 +80,53 @@ export async function EditSpecficPropertyId(propertyID, title, address, city, st
   return response.data;
 }
 
-export async function addProperty(title, address, city, state, district, pincode, propertyType, price, PropertyArea, bedrooms, bathrooms, description, userID) {
+export async function addProperty(
+  title,
+  address,
+  city,
+  state,
+  district,
+  pincode,
+  propertyType,
+  price,
+  PropertyArea,
+  bedrooms,
+  bathrooms,
+  description,
+  userID
+) {
   // body parameters
-  const body = { title, address, city, state, district, pincode, propertyType, price, PropertyArea, bedrooms, bathrooms, description, userID };
+  const body = {
+    title,
+    address,
+    city,
+    state,
+    district,
+    pincode,
+    propertyType,
+    price,
+    PropertyArea,
+    bedrooms,
+    bathrooms,
+    description,
+    userID,
+  };
 
   // make API call
-  const response = await axios.post(`${config.url}/Property/add/${userID}`, body);
+  const response = await axios.post(
+    `${config.url}/Property/add/${userID}`,
+    body
+  );
 
   // read JSON data (response)
   return response.data;
 }
-export async function addImages(Images,propertyID) {
+export async function addImages(Images, propertyID) {
   // body parameters
-  const body={Images};
+  const body = { Images };
 
   // make API call
-  const response=await axios.post(`${config.url}/Image/upload`, body);
+  const response = await axios.post(`${config.url}/Image/upload`, body);
 
   // read JSON data (response)
   return response.data;

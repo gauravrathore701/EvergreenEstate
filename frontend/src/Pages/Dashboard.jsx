@@ -1,15 +1,49 @@
-import userImage from "../Assets/icons/userImage.png";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
-import PropertyCard from "../Components/ProductCard";
-function Dashboard() {
-  const user = {};
+import ProductCard from "../Components/ProductCard";
+import { Link, useNavigate } from "react-router-dom";
+import { toast } from "react-toastify";
+import { useEffect, useState } from "react";
+import { deleteCookie, getUserDetails } from "../services/methods";
+import { GetSpecficPropertyUser } from "../services/property";
+import ImageUploadComponent from "../Components/ImageUploadComponent";
 
-  const arr = [1, 2, 3, 4, 5, 6];
+function Dashboard() {
+  const [data, setData] = useState("");
+  const [Img, setImg] = useState("");
+  const [Properities, SetProperities] = useState([]);
+  const navigate = useNavigate();
+
+  const fetchData = async () => {
+    const result = await GetSpecficPropertyUser(data.id);
+    if (result.status === 200) {
+      const propData = result.data;
+      return propData;
+    } else {
+      toast.warning("Fetching error");
+      return [];
+    }
+  };
+
+  useEffect(() => {
+    getUserDetails().then((res) => {
+      if (res.data.status === "Success") {
+        setData(res.data.data);
+        setImg(res.data.data.profilePic);
+        fetchData().then((res) => {
+          SetProperities([...res]);
+        });
+      } else {
+        toast.error(res.status);
+      }
+    });
+  }, []);
+
+  const logout = () => {
+    deleteCookie("token");
+    navigate("/login");
+  };
 
   return (
     <div>
-      <Header />
       <div className="container ">
         <div className="row formContainer mt-5 justify-center">
           <div className="col-lg-8 col-md-8 col-sm-12">
@@ -26,7 +60,7 @@ function Dashboard() {
                 </div>
                 <div className="col">
                   <span className="tw-text-start tw-text-xl tw-font-light tw-text-gray-500">
-                    TestUsername
+                    {data.userName}
                   </span>
                 </div>
                 <div className="col-sm-0 col-md-4 col-lg-4"></div>
@@ -41,7 +75,7 @@ function Dashboard() {
                 </div>
                 <div className="col">
                   <span className="tw-text-start tw-text-xl tw-font-light tw-text-gray-500">
-                    Test name
+                    {data.firstName} {data.lastName}
                   </span>
                 </div>
                 <div className="col-sm-1 col-md-4 col-lg-4"></div>
@@ -56,7 +90,7 @@ function Dashboard() {
                 </div>
                 <div className="col">
                   <span className="tw-text-start tw-text-xl tw-font-light tw-text-gray-500">
-                    test@gmail.com
+                    {data.email}
                   </span>
                 </div>
                 <div className="col-sm-1 col-md-4 col-lg-4"></div>
@@ -71,7 +105,7 @@ function Dashboard() {
                 </div>
                 <div className="col">
                   <span className="tw-text-start tw-text-xl tw-font-light tw-text-gray-500">
-                    9988776655
+                    {data.phoneNumber}
                   </span>
                 </div>
                 <div className="col-sm-1 col-md-4 col-lg-4"></div>
@@ -81,15 +115,9 @@ function Dashboard() {
                 <div className="col-sm-1 col-md-3 col-lg-3"></div>
                 <div className="col">
                   <div className="btn btn-primary mt-3 ms-2">
-                    <a href="/edit-page" className="tw-text-white">
+                    <Link to="/reset-password" className="tw-text-white">
                       Change Password
-                    </a>
-                  </div>
-
-                  <div className="btn btn-primary mt-3 ms-2">
-                    <a href="/edit-page" className="tw-text-white">
-                      Payment History
-                    </a>
+                    </Link>
                   </div>
                 </div>
                 <div className="col-sm-1 col-md-4 col-lg-4"></div>
@@ -98,17 +126,15 @@ function Dashboard() {
           </div>
           <div className="col-sm-12 col-md-4 col-lg-4">
             <div className="tw-text-end ">
-              <a href="" className="btn btn-danger mt-2">
+              <a href="" className="btn btn-danger mt-2" onClick={logout}>
                 Log out
               </a>
             </div>
+
             <div className="tw-flex tw-justify-center mt-5">
-              <img
-                src={userImage}
-                alt="User Image"
-                className="tw-rounded-full tw-shadow-lg tw-w-32 tw-h-32 tw-object-cover"
-              />
+              <ImageUploadComponent userImg={Img} />
             </div>
+
             <div className="tw-flex tw-justify-center mt-3">
               <div className="btn btn-warning">
                 <a href="/edit-page" className="tw-text-white">
@@ -127,23 +153,33 @@ function Dashboard() {
           <h1 className=" mt-3">My Properties</h1>
           <div className="container">
             <div className="d-grid gap-2 d-md-flex justify-content-md-end mb-3 me-5">
-              <a href="/add-property" class="btn btn-success me-5">
+              <a href={`/add-property`} class="btn btn-success me-5">
                 Add New Property
               </a>
             </div>
             <div className="row">
-              {arr.map((element) => {
-                return (
-                  <div className="col m-4">
-                    <PropertyCard page={{ name: "Edit-Prop" }} />
-                  </div>
-                );
-              })}
+              {Properities.length === 0 ? (
+                <h1 className="centered mt-3">User Has No Added Properties</h1>
+              ) : (
+                Properities.map((property) => {
+                  return (
+                    <div className="col m-4">
+                      <ProductCard
+                        page={{ name: "Edit-Prop" }}
+                        id={property.id}
+                        title={property.title}
+                        description={property.description}
+                        price={property.price}
+                        owner={property.owner}
+                      />
+                    </div>
+                  );
+                })
+              )}
             </div>
           </div>
         </div>
       </div>
-      <Footer />
     </div>
   );
 }

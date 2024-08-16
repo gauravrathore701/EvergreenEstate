@@ -4,8 +4,8 @@ import { GoEyeClosed } from "react-icons/go";
 import { Link, useNavigate } from "react-router-dom";
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
-import Footer from "../Components/Footer";
-import Header from "../Components/Header";
+import { loginUser } from "../services/methods";
+import { useCookies } from "react-cookie";
 
 function LoginPage() {
   const [showPassword, setShowPassword] = useState(false);
@@ -13,6 +13,7 @@ function LoginPage() {
     email: "",
     password: "",
   });
+  const [cookie, setCookie] = useCookies(["token"]);
 
   const navigate = useNavigate();
 
@@ -25,7 +26,7 @@ function LoginPage() {
     }));
   };
 
-  const handleSubmit = (e) => {
+  const handleSubmit = async (e) => {
     e.preventDefault();
 
     // Validate email and password
@@ -33,26 +34,22 @@ function LoginPage() {
     const isValidPassword = validatePassword(data.password);
 
     if (isValidEmail && isValidPassword) {
-      // Proceed with login logic
-      console.log("Form is valid, perform login");
-
-      // Example: Call your login function here
-
-      // Clear form or perform other actions after successful login
-      setData({
-        email: "",
-        password: "",
-      });
-
       // Show success toast
-      toast.success("Login successful!");
-      navigate("/dashboard");
+      const res = await loginUser(data.email, data.password);
+
+      if (res.data.status === "Success") {
+        setCookie("token", res.data.data);
+        console.log(cookie);
+        toast.success("Logged In...");
+        navigate("/dashboard");
+      } else {
+        toast.error(res.data.status);
+      }
     }
   };
 
   const validateEmail = (email) => {
-    const re = /\S+@\S+\.\S+/;
-    if (!email || !re.test(email)) {
+    if (data.email.length === 0) {
       toast.error("Please enter a valid email address");
       return false;
     }
@@ -68,17 +65,20 @@ function LoginPage() {
   };
 
   return (
-    <div>
+    <div
+      className="content-wrapper"
+      style={{ marginBottom: "0px", marginTop: "10px" }}
+    >
       <div className="container loginformContainer loginForm col-lg-6  mb-1 px-7 py-4">
         <h2 className="centered mb-4 mt-6">Login here</h2>
         <form onSubmit={handleSubmit}>
-          <div className="form-label">Email</div>
+          <div className="form-label">Username</div>
           <input
             onChange={handleOnChange}
-            type="email"
+            type="input"
             name="email"
             value={data.email}
-            placeholder="Enter Your Email"
+            placeholder="Enter Your Username"
             className="form-control"
           />
 
@@ -129,9 +129,6 @@ function LoginPage() {
             Login
           </button>
         </form>
-      </div>
-      <div style={{ position: "absolute", bottom: "0", width: "100%" }}>
-        <Footer />
       </div>
     </div>
   );

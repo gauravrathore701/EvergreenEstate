@@ -2,9 +2,10 @@ package com.app.entities;
 
 import java.time.LocalDate;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.Table;
+import jakarta.persistence.Column;
+import jakarta.persistence.Entity;
+import jakarta.persistence.Lob;
+import jakarta.persistence.Table;
 
 import lombok.Getter;
 import lombok.Setter;
@@ -27,7 +28,7 @@ public class User extends BaseEntity {
 	@Column(length = 50)
 	private String email;
 	
-	@Column(length = 12)
+	@Column(length = 255)
 	private String password;
 	
 	@Column
@@ -43,8 +44,11 @@ public class User extends BaseEntity {
 	private String state;
 	
 	@Column
-	private int isAdmin = 0;
+	private String role = "USER";
 	
-	@Column
-	private String profilePic = null;
+	private boolean isDeleted;
+	
+	@Column(columnDefinition = "LONGBLOB")
+	@Lob
+	private byte[] profilePic;
 }
