@@ -45,7 +45,7 @@ function Checkout() {
   const fetchImage = async () => {
     // const id = 9;
     const result = await getPropertyImages(id); // Backend Integration
-    if (result.status == 200) {
+    if (result.status === 200) {
       const data = result.data;
       return data;
     } else {
@@ -70,7 +70,7 @@ function Checkout() {
           setPrice(price);
           setDescpt(description);
           setOwnerName(owner);
-          if (id == userid) {
+          if (id === userid) {
             toast.warning("You Own This Property");
             navigate("/");
           }

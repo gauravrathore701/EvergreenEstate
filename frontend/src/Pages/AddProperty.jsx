@@ -27,6 +27,8 @@ function AddProperty() {
   const [selectedTags, setSelectedTags] = useState([]);
   const [AvailableTags, setAvailableTags] = useState([]);
 
+  var Image = [];
+
   const navigate = useNavigate();
   const handleTagsChange = (tags) => {
     // const newTags = selectedTags;
@@ -34,6 +36,7 @@ function AddProperty() {
     console.log(tags + "-----" + selectedTags + "-----" + newTags);
     tags.map((e) => {
       newTags.add(e);
+      return 1;
     });
     setTagList([...newTags]);
     setSelectedTags([...newTags]);
@@ -43,7 +46,7 @@ function AddProperty() {
   const fetchData = async () => {
     try {
       const result = await GetAllTags(); // Backend Integration
-      if (result.status == "Success") {
+      if (result.status === "Success") {
         const data = result.data;
         return data;
       } else {
@@ -114,7 +117,7 @@ function AddProperty() {
         },
         tags: tagsDTORequest,
       };
-      Image = [];
+
       const files = document.getElementById("formFileMultiple");
       for (let i = 0; i < files.files.length; i++) {
         Image.push(files.files[i]);
@@ -146,6 +149,7 @@ function AddProperty() {
       const newTags = new Set([]);
       prop.map((e) => {
         newTags.add(e.tagName);
+        return 1;
       });
       setAvailableTags([...newTags]);
     })();

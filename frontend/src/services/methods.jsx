@@ -37,10 +37,8 @@ export async function registerUser(
 
 export async function loginUser(email, password) {
   let body = { username: email, password: password };
-  const response = await axios.post(
-    `${process.env.REACT_APP_API_URL}/user/login`,
-    body
-  );
+  console.log(body);
+  const response = await axios.post(`${config.url}/user/login`, body);
   return response;
 }
 

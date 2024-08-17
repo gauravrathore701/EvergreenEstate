@@ -43,7 +43,7 @@ function ProductCard({
   //   })();
   // }, []);
   function addToCartBtn() {
-    if (page.name == "homepage") {
+    if (page.name === "homepage") {
       return (
         <div>
           <Link
@@ -58,7 +58,7 @@ function ProductCard({
         </div>
       );
     }
-    if (page.name == "Edit-Prop") {
+    if (page.name === "Edit-Prop") {
       return (
         <div>
           <Link
@@ -76,7 +76,7 @@ function ProductCard({
         </div>
       );
     }
-    if (page.name == "wishlist") {
+    if (page.name === "wishlist") {
       return (
         <div>
           <Link
@@ -97,10 +97,10 @@ function ProductCard({
     <div>
       <div class="card" style={{ width: "20rem", borderRadius: "20px" }}>
         <img
-          src={"data:image/png;base64," + `${Img}`}
+          src={`data:image/png;base64, ${Img}`}
           // src={`${Img}`}
           class="card-img-top"
-          alt="property image"
+          alt=""
           style={{ borderRadius: "20px" }}
         />
         <div class="card-body">
