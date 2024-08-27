@@ -30,7 +30,7 @@ Developed a full-stack real estate web application using Spring Boot for the bac
 - `MySQL`
 - `Hibernate + JPA Repository`
 - `Spring Security with JWT`
-* `Spring Boot Starter Mail`
+- `Spring Boot Starter Mail`
 ## Installation
 1. Clone the repository: `git clone https://github.com/gauravrathore701/EvergreenEstate.git`
 2. Got inside the /frontend folder and run the command `yarn` to install the dependencies
