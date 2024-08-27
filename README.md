@@ -49,7 +49,7 @@ Developed a full-stack real estate web application using Spring Boot for the bac
 ## License
 Distributed under the MIT License. See `LICENSE` for more information.
 ## Contact
-Gaurav Rathore - [Email](mailto:gauravrathore701@gmail.com) 
+Gaurav Rathore - `gauravrathore701@gmail.com` 
 ## Acknowledgements
 - [Spring Security Tutorial](https://www.youtube.com/watch?v=29vmP4YLwyo&list=PLxhSr_SLdXGOpdX60nHze41CvExvBOn09)
 - [JavaEE 8 Documentation](https://javaee.github.io/javaee-spec/javadocs/)
